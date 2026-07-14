@@ -1,0 +1,39 @@
+---
+layout: default
+---
+{% assign slug = page.dir | remove: "/" %}
+{% assign cat = site.data.categories[slug] %}
+{% assign issues = site.pages | where: "dir", page.dir | where_exp: "p", "p.name contains '.md'" | where_exp: "p", "p.name != 'index.md'" | sort: "name" | reverse %}
+{% capture nl %}
+{% endcapture %}
+{% assign weekdays = "日,一,二,三,四,五,六" | split: "," %}
+<div class="cat-page" style="--cat: {{ cat.color | default: '#6b7280' }}">
+  <header class="cat-header">
+    <span class="cat-emoji">{{ cat.emoji | default: "📰" }}</span>
+    <div>
+      <h1 class="cat-title">{{ cat.name | default: slug }}</h1>
+      <p class="cat-desc">{% if cat.desc %}{{ cat.desc }} · {% endif %}共 {{ issues | size }} 期</p>
+    </div>
+  </header>
+  <div class="issues">
+  {% for p in issues %}
+    {% assign d = p.name | remove: ".md" %}
+    {% assign wd = d | date: "%w" | plus: 0 %}
+    {% assign headline = "" %}
+    {% if p.content contains "今日头条：" %}
+      {% assign headline = p.content | split: "今日头条：" | last | split: nl | first | strip %}
+    {% endif %}
+    <a class="issue" href="{{ p.url | relative_url }}">
+      <div class="issue-date">
+        <span class="issue-day">{{ d | date: "%-m月%-d日" }}</span>
+        <span class="issue-meta">{{ d | date: "%Y" }} · 星期{{ weekdays[wd] }}</span>
+        {% if forloop.first %}<span class="badge-latest">最新</span>{% endif %}
+      </div>
+      {% unless headline == "" %}
+      <p class="issue-headline">{{ headline }}</p>
+      {% endunless %}
+      <span class="issue-arrow" aria-hidden="true">→</span>
+    </a>
+  {% endfor %}
+  </div>
+</div>

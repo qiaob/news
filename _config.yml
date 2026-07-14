@@ -1,0 +1,14 @@
+title: OpenAide News
+description: 每天自动生成的行业新闻摘要
+lang: zh-CN
+url: "https://news.openaide.cc"
+baseurl: ""
+repository: qiaob/news
+timezone: Asia/Shanghai
+
+# README 只作为仓库说明，站点首页由 index.html 自动生成
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor

@@ -1,0 +1,52 @@
+---
+layout: default
+title: 首页
+---
+{% comment %}
+自动扫描所有子目录下的 YYYY-MM-DD.md 简报，按日期倒序分组展示。
+新增分类文件夹后此页面自动收录，无需修改。
+{% endcomment %}
+{% capture nl %}
+{% endcapture %}
+{% assign briefs = site.pages | where_exp: "p", "p.dir != '/'" | where_exp: "p", "p.name contains '.md'" | where_exp: "p", "p.name != 'index.md'" %}
+{% capture datestr %}{% for p in briefs %}{{ p.name | remove: ".md" }},{% endfor %}{% endcapture %}
+{% assign dates = datestr | split: "," | uniq | sort | reverse %}
+{% assign weekdays = "日,一,二,三,四,五,六" | split: "," %}
+
+<div class="feed">
+{% for d in dates %}
+{% unless d == "" %}
+  {% assign wd = d | date: "%w" | plus: 0 %}
+  <section class="day">
+    <header class="day-heading">
+      <h2 class="day-date">{{ d | date: "%-m月%-d日" }}</h2>
+      <span class="day-meta">星期{{ weekdays[wd] }} · {{ d }}</span>
+      {% if forloop.first %}<span class="badge-latest">最新</span>{% endif %}
+    </header>
+    <div class="cards">
+    {% for p in briefs %}
+      {% assign pd = p.name | remove: ".md" %}
+      {% if pd == d %}
+        {% assign slug = p.dir | remove: "/" %}
+        {% assign cat = site.data.categories[slug] %}
+        {% assign headline = "" %}
+        {% if p.content contains "今日头条：" %}
+          {% assign headline = p.content | split: "今日头条：" | last | split: nl | first | strip %}
+        {% endif %}
+        <a class="card" href="{{ p.url | relative_url }}" style="--cat: {{ cat.color | default: '#6b7280' }}">
+          <div class="card-top">
+            <span class="card-emoji">{{ cat.emoji | default: "📰" }}</span>
+            <span class="card-name">{{ cat.name | default: slug }}</span>
+            <span class="card-arrow" aria-hidden="true">→</span>
+          </div>
+          {% unless headline == "" %}
+          <p class="card-headline">{{ headline }}</p>
+          {% endunless %}
+        </a>
+      {% endif %}
+    {% endfor %}
+    </div>
+  </section>
+{% endunless %}
+{% endfor %}
+</div>

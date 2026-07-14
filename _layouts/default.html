@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: 'zh-CN' }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{% if page.url == "/" %}
+<title>{{ site.title }}</title>
+{% elsif page.layout == "category" %}
+{% assign tslug = page.dir | remove: "/" %}
+<title>{{ site.data.categories[tslug].name | default: tslug }} · {{ site.title }}</title>
+{% else %}
+<title>{{ page.title | default: site.title }} · {{ site.title }}</title>
+{% endif %}
+<meta name="description" content="{{ site.description }}">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📰</text></svg>">
+<link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}">
+</head>
+<body>
+
+{% assign navbriefs = site.pages | where_exp: "p", "p.dir != '/'" | where_exp: "p", "p.name contains '.md'" | where_exp: "p", "p.name != 'index.md'" %}
+{% capture dirstr %}{% for p in navbriefs %}{{ p.dir }},{% endfor %}{% endcapture %}
+{% assign navdirs = dirstr | split: "," | uniq | sort %}
+<header class="site-header">
+  <div class="wrap">
+    <a class="masthead" href="{{ '/' | relative_url }}">openaide<span class="masthead-accent">news</span></a>
+    <p class="tagline">{{ site.description }}</p>
+  </div>
+  <nav class="site-nav">
+    <div class="wrap site-nav-inner">
+      <a class="nav-link{% if page.url == '/' %} active{% endif %}" href="{{ '/' | relative_url }}">首页</a>
+      {% for d in navdirs %}{% unless d == "" %}
+        {% assign navslug = d | remove: "/" %}
+        {% assign navcat = site.data.categories[navslug] %}
+        {% assign catindex = site.pages | where: "dir", d | where_exp: "p", "p.name contains 'index'" | first %}
+        {% if catindex %}
+          {% assign navhref = catindex.url %}
+        {% else %}
+          {% assign catpages = navbriefs | where: "dir", d | sort: "name" %}
+          {% assign latest = catpages | last %}
+          {% assign navhref = latest.url %}
+        {% endif %}
+        <a class="nav-link{% if page.dir == d %} active{% endif %}" href="{{ navhref | relative_url }}" style="--cat: {{ navcat.color | default: '#6b7280' }}">{{ navcat.emoji | default: "📰" }} {{ navcat.name | default: navslug }}</a>
+      {% endunless %}{% endfor %}
+    </div>
+  </nav>
+</header>
+
+<main class="wrap">
+{% if page.dir == "/" or page.layout == "category" %}
+{{ content }}
+{% else %}
+  {% assign slug = page.dir | remove: "/" %}
+  {% assign cat = site.data.categories[slug] %}
+  {% assign briefdate = page.name | remove: ".md" %}
+  <nav class="crumbs">
+    <a href="{{ '/' | relative_url }}">← 返回首页</a>
+    <a class="chip" href="{{ page.dir | relative_url }}" style="--cat: {{ cat.color | default: '#6b7280' }}">{{ cat.emoji | default: "📰" }} {{ cat.name | default: slug }}</a>
+    <time class="crumb-date" datetime="{{ briefdate }}">{{ briefdate }}</time>
+  </nav>
+  <article class="brief">
+{{ content }}
+  </article>
+{% endif %}
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>{{ site.title }} · 内容由 AI 每日自动生成</p>
+  </div>
+</footer>
+
+</body>
+</html>
