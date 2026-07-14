@@ -8,7 +8,7 @@ title: 首页
 {% endcomment %}
 {% capture nl %}
 {% endcapture %}
-{% assign briefs = site.pages | where_exp: "p", "p.dir != '/'" | where_exp: "p", "p.name contains '.md'" %}
+{% assign briefs = site.pages | where_exp: "p", "p.dir != '/'" | where_exp: "p", "p.name contains '.md'" | where_exp: "p", "p.name != 'index.md'" %}
 {% capture datestr %}{% for p in briefs %}{{ p.name | remove: ".md" }},{% endfor %}{% endcapture %}
 {% assign dates = datestr | split: "," | uniq | sort | reverse %}
 {% assign weekdays = "日,一,二,三,四,五,六" | split: "," %}

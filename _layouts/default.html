@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 {% if page.url == "/" %}
 <title>{{ site.title }}</title>
+{% elsif page.layout == "category" %}
+{% assign tslug = page.dir | remove: "/" %}
+<title>{{ site.data.categories[tslug].name | default: tslug }} · {{ site.title }}</title>
 {% else %}
 <title>{{ page.title | default: site.title }} · {{ site.title }}</title>
 {% endif %}
@@ -15,7 +18,7 @@
 </head>
 <body>
 
-{% assign navbriefs = site.pages | where_exp: "p", "p.dir != '/'" | where_exp: "p", "p.name contains '.md'" %}
+{% assign navbriefs = site.pages | where_exp: "p", "p.dir != '/'" | where_exp: "p", "p.name contains '.md'" | where_exp: "p", "p.name != 'index.md'" %}
 {% capture dirstr %}{% for p in navbriefs %}{{ p.dir }},{% endfor %}{% endcapture %}
 {% assign navdirs = dirstr | split: "," | uniq | sort %}
 <header class="site-header">
@@ -29,16 +32,22 @@
       {% for d in navdirs %}{% unless d == "" %}
         {% assign navslug = d | remove: "/" %}
         {% assign navcat = site.data.categories[navslug] %}
-        {% assign catpages = navbriefs | where: "dir", d | sort: "name" %}
-        {% assign latest = catpages | last %}
-        <a class="nav-link{% if page.dir == d %} active{% endif %}" href="{{ latest.url | relative_url }}" style="--cat: {{ navcat.color | default: '#6b7280' }}">{{ navcat.emoji | default: "📰" }} {{ navcat.name | default: navslug }}</a>
+        {% assign catindex = site.pages | where: "dir", d | where_exp: "p", "p.name contains 'index'" | first %}
+        {% if catindex %}
+          {% assign navhref = catindex.url %}
+        {% else %}
+          {% assign catpages = navbriefs | where: "dir", d | sort: "name" %}
+          {% assign latest = catpages | last %}
+          {% assign navhref = latest.url %}
+        {% endif %}
+        <a class="nav-link{% if page.dir == d %} active{% endif %}" href="{{ navhref | relative_url }}" style="--cat: {{ navcat.color | default: '#6b7280' }}">{{ navcat.emoji | default: "📰" }} {{ navcat.name | default: navslug }}</a>
       {% endunless %}{% endfor %}
     </div>
   </nav>
 </header>
 
 <main class="wrap">
-{% if page.dir == "/" %}
+{% if page.dir == "/" or page.layout == "category" %}
 {{ content }}
 {% else %}
   {% assign slug = page.dir | remove: "/" %}
@@ -46,7 +55,7 @@
   {% assign briefdate = page.name | remove: ".md" %}
   <nav class="crumbs">
     <a href="{{ '/' | relative_url }}">← 返回首页</a>
-    <span class="chip" style="--cat: {{ cat.color | default: '#6b7280' }}">{{ cat.emoji | default: "📰" }} {{ cat.name | default: slug }}</span>
+    <a class="chip" href="{{ page.dir | relative_url }}" style="--cat: {{ cat.color | default: '#6b7280' }}">{{ cat.emoji | default: "📰" }} {{ cat.name | default: slug }}</a>
     <time class="crumb-date" datetime="{{ briefdate }}">{{ briefdate }}</time>
   </nav>
   <article class="brief">
