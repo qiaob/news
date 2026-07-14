@@ -6,9 +6,11 @@ baseurl: ""
 repository: qiaob/news
 timezone: Asia/Shanghai
 
-# README 只作为仓库说明，站点首页由 index.html 自动生成
+# README/CLAUDE/GENERATION 只作为仓库文档，不参与站点构建
 exclude:
   - README.md
+  - CLAUDE.md
+  - GENERATION.md
   - Gemfile
   - Gemfile.lock
   - vendor

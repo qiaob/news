@@ -6,12 +6,38 @@
 #   3. （可选）在这里加一条配置，自定义显示名称、emoji、主题色和一句话描述，
 #      不配置时默认显示文件夹名 + 📰 + 灰色。
 AI:
+  short: AI
   name: AI 日报
   emoji: 🤖
   color: "#6366f1"
   desc: 人工智能行业每日要闻
 Dating-Social-Apps:
+  short: 交友社交
   name: 交友与社交应用日报
   emoji: 💬
   color: "#e11d63"
   desc: 交友与社交产品行业每日要闻
+Personalization-Retention:
+  short: 推荐与留存
+  name: 推荐与留存日报
+  emoji: 🎯
+  color: "#0d9488"
+  desc: 推荐系统、个性化匹配与召回留存的研究与实践
+Mobile-Platforms:
+  short: 移动平台
+  name: 移动平台与应用商店日报
+  emoji: 📱
+  color: "#0ea5e9"
+  desc: App Store 与 Google Play 政策、分发与变现动态
+Trust-Safety-Regulation:
+  short: 信任安全
+  name: 信任安全与监管日报
+  emoji: 🛡️
+  color: "#d97706"
+  desc: 年龄验证、内容安全与数据隐私监管动态
+Economy:
+  short: 经济
+  name: 经济日报
+  emoji: 💹
+  color: "#16a34a"
+  desc: 宏观经济与全球市场每日要闻

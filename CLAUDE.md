@@ -28,17 +28,18 @@ LANG=C.UTF-8 LC_ALL=C.UTF-8 PAGES_REPO_NWO=qiaob/news bundle exec jekyll build
 
 - 简报 md **没有 front matter**。能被 Jekyll 渲染依赖 github-pages gem 自带插件：optional-front-matter（无 front matter 也当页面处理）、default-layout（自动套 `default` 布局）、titles-from-headings（首个 H1 变成 page.title）、relative-links。改构建方式时不要破坏这条链。
 - 简报正文格式约定：H1 为 `分类名 — YYYY-MM-DD`；第一条为 `## 今日头条：...`；其余条目以 `---` 分隔、标题为独占一段的 `**粗体**`（CSS 靠 `p > strong:only-child` 放大它）。首页与归档页的摘要靠字符串 `今日头条：` 切分提取——改这个措辞会让所有摘要消失（有优雅降级，不会构建失败）。
-- README.md 只是仓库说明，已在 `_config.yml` 中 exclude，不参与站点。
+- README.md 只是仓库说明，已在 `_config.yml` 中 exclude，不参与站点（CLAUDE.md、GENERATION.md 同理）。
+- 每日简报的**爬取与写入规范**（各分类的覆盖范围、信源、格式硬性约束、自检清单）在 `GENERATION.md`，供生成端 AI 使用；修改站点的摘要提取逻辑或文件格式时必须同步更新它。
 
 ## 站点架构
 
 所有页面共享「按文件夹自动发现分类」的模式：用 `site.pages` 过滤 `dir != '/'`、`name contains '.md'`、`name != 'index.md'` 得到全部简报，分类 = 一级目录名。因此**新增新闻类型 = 新建文件夹**，首页、顶部导航自动出现，无需改代码。
 
 - `index.html` — 首页：所有简报按日期倒序分组，每天每分类一张卡片（含当日头条摘要）。
-- `_layouts/default.html` — 基础布局：品牌字标（openaide news）、自动生成的分类导航（tab 链到分类归档页，无归档存根时退化为该分类最新一期）、文章页的面包屑 + 正文卡片包装。
+- `_layouts/default.html` — 基础布局：品牌字标（openaide news）、自动生成的分类导航（收录「有简报的目录 ∪ 有 `layout: category` 存根的目录」，所以空分类也会出现在导航里；tab 链到分类归档页，无存根时退化为该分类最新一期；tab 文案优先用 `short` 字段）、文章页的面包屑 + 正文卡片包装。
 - `_layouts/category.html` — 分类归档页布局（继承 default）：从 `page.dir` 推断分类，列出该分类全部期数。
 - `AI/index.md`、`Dating-Social-Apps/index.md` — 3 行存根，仅声明 `layout: category`，让 `/<分类>/` 有归档页。新分类想要归档页就复制一份。
-- `_data/categories.yml` — 分类展示配置（name/emoji/color/desc），可选；未配置的分类回退为「文件夹名 + 📰 + 灰色」。新增分类的完整步骤写在该文件注释里。
+- `_data/categories.yml` — 分类展示配置（short/name/emoji/color/desc），可选；未配置的分类回退为「文件夹名 + 📰 + 灰色」。新增分类的完整步骤写在该文件注释里。
 - `assets/style.css` — 全部样式。分类主题色通过 CSS 变量 `--cat` 由模板 inline style 注入；浅色为默认，深色靠 `prefers-color-scheme`；无 JS、无外部字体/CDN（兼顾国内访问）。
 
 ## 注意事项
