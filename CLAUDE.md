@@ -28,7 +28,8 @@ LANG=C.UTF-8 LC_ALL=C.UTF-8 PAGES_REPO_NWO=qiaob/news bundle exec jekyll build
 
 - 简报 md **没有 front matter**。能被 Jekyll 渲染依赖 github-pages gem 自带插件：optional-front-matter（无 front matter 也当页面处理）、default-layout（自动套 `default` 布局）、titles-from-headings（首个 H1 变成 page.title）、relative-links。改构建方式时不要破坏这条链。
 - 简报正文格式约定：H1 为 `分类名 — YYYY-MM-DD`；第一条为 `## 今日头条：...`；其余条目以 `---` 分隔、标题为独占一段的 `**粗体**`（CSS 靠 `p > strong:only-child` 放大它）。首页与归档页的摘要靠字符串 `今日头条：` 切分提取——改这个措辞会让所有摘要消失（有优雅降级，不会构建失败）。
-- README.md 只是仓库说明，已在 `_config.yml` 中 exclude，不参与站点。
+- README.md 只是仓库说明，已在 `_config.yml` 中 exclude，不参与站点（CLAUDE.md、GENERATION.md 同理）。
+- 每日简报的**爬取与写入规范**（各分类的覆盖范围、信源、格式硬性约束、自检清单）在 `GENERATION.md`，供生成端 AI 使用；修改站点的摘要提取逻辑或文件格式时必须同步更新它。
 
 ## 站点架构
 
