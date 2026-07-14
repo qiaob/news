@@ -91,14 +91,18 @@ a { color: var(--accent); }
 
 .site-nav-inner {
   display: flex;
-  justify-content: center;
   gap: 0.4rem;
+  max-width: 64rem;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
 }
 
 .site-nav-inner::-webkit-scrollbar { display: none; }
+
+/* 空间足够时居中，溢出滚动时首尾 tab 仍可完整到达 */
+.nav-link:first-child { margin-left: auto; }
+.nav-link:last-child { margin-right: auto; }
 
 .nav-link {
   flex-shrink: 0;
@@ -118,9 +122,6 @@ a { color: var(--accent); }
   border-bottom-color: var(--cat, var(--accent));
 }
 
-@media (max-width: 480px) {
-  .site-nav-inner { justify-content: flex-start; }
-}
 
 /* ---------- 首页信息流 ---------- */
 
@@ -250,6 +251,12 @@ a { color: var(--accent); }
   color: var(--muted);
   font-size: 0.85rem;
   letter-spacing: 0.03em;
+}
+
+.cat-empty {
+  color: var(--muted);
+  text-align: center;
+  padding: 2.5rem 0;
 }
 
 .issues {

@@ -19,7 +19,8 @@
 <body>
 
 {% assign navbriefs = site.pages | where_exp: "p", "p.dir != '/'" | where_exp: "p", "p.name contains '.md'" | where_exp: "p", "p.name != 'index.md'" %}
-{% capture dirstr %}{% for p in navbriefs %}{{ p.dir }},{% endfor %}{% endcapture %}
+{% assign navstubs = site.pages | where: "layout", "category" %}
+{% capture dirstr %}{% for p in navbriefs %}{{ p.dir }},{% endfor %}{% for p in navstubs %}{{ p.dir }},{% endfor %}{% endcapture %}
 {% assign navdirs = dirstr | split: "," | uniq | sort %}
 <header class="site-header">
   <div class="wrap">
@@ -40,7 +41,7 @@
           {% assign latest = catpages | last %}
           {% assign navhref = latest.url %}
         {% endif %}
-        <a class="nav-link{% if page.dir == d %} active{% endif %}" href="{{ navhref | relative_url }}" style="--cat: {{ navcat.color | default: '#6b7280' }}">{{ navcat.emoji | default: "📰" }} {{ navcat.name | default: navslug }}</a>
+        <a class="nav-link{% if page.dir == d %} active{% endif %}" href="{{ navhref | relative_url }}" style="--cat: {{ navcat.color | default: '#6b7280' }}">{{ navcat.emoji | default: "📰" }} {{ navcat.short | default: navcat.name | default: navslug }}</a>
       {% endunless %}{% endfor %}
     </div>
   </nav>
