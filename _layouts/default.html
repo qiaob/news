@@ -15,11 +15,26 @@
 </head>
 <body>
 
+{% assign navbriefs = site.pages | where_exp: "p", "p.dir != '/'" | where_exp: "p", "p.name contains '.md'" %}
+{% capture dirstr %}{% for p in navbriefs %}{{ p.dir }},{% endfor %}{% endcapture %}
+{% assign navdirs = dirstr | split: "," | uniq | sort %}
 <header class="site-header">
   <div class="wrap">
-    <a class="masthead" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+    <a class="masthead" href="{{ '/' | relative_url }}">openaide<span class="masthead-accent">news</span></a>
     <p class="tagline">{{ site.description }}</p>
   </div>
+  <nav class="site-nav">
+    <div class="wrap site-nav-inner">
+      <a class="nav-link{% if page.url == '/' %} active{% endif %}" href="{{ '/' | relative_url }}">首页</a>
+      {% for d in navdirs %}{% unless d == "" %}
+        {% assign navslug = d | remove: "/" %}
+        {% assign navcat = site.data.categories[navslug] %}
+        {% assign catpages = navbriefs | where: "dir", d | sort: "name" %}
+        {% assign latest = catpages | last %}
+        <a class="nav-link{% if page.dir == d %} active{% endif %}" href="{{ latest.url | relative_url }}" style="--cat: {{ navcat.color | default: '#6b7280' }}">{{ navcat.emoji | default: "📰" }} {{ navcat.name | default: navslug }}</a>
+      {% endunless %}{% endfor %}
+    </div>
+  </nav>
 </header>
 
 <main class="wrap">
