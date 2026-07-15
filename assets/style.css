@@ -43,9 +43,9 @@ body {
 }
 
 .wrap {
-  max-width: 46rem;
+  max-width: 64rem;
   margin: 0 auto;
-  padding: 0 1.25rem;
+  padding: 0 1.5rem;
 }
 
 a { color: var(--accent); }
@@ -164,7 +164,7 @@ a { color: var(--accent); }
 
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
   gap: 0.9rem;
 }
 
