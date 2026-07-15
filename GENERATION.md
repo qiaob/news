@@ -72,6 +72,7 @@
 ## 三、通用爬取要求
 
 - **信源优先级**：一手来源（官方公告、监管文件、公司博客、论文）> 头部媒体报道 > 行业垂直媒体 > 聚合转载。聚合转载只作补充链接，不作唯一来源。
+- **地域覆盖**：**全球视野，不要只抓美国**。欧盟/英国、中国（大陆及港台）、日本、韩国、东南亚、印度、拉美、中东与非洲的重要动态同样在范围内；每份简报应主动检索至少一轮非美市场的新闻，确有分量的优先入选（不为凑地域配额而降低选题标准）。非英语信源（当地媒体、监管机构、公司公告）可直接使用并翻译成中文摘要，链接保留原文。各分类的信源清单是起点而非边界。
 - **去重**：同一事件只归入最相关的一个分类；若对多个分类都关键，主分类写全，其他分类最多一句带过并复用链接，不重复整条。
 - **可信度**：单一来源且无法交叉验证的传闻，须在正文标注「据 X 独家/传闻」。
 - **链接校验**：写入前确认 URL 可访问；优先非付费墙链接，付费墙独家可保留但尽量补一条免费的相关报道。
@@ -91,12 +92,12 @@
 ### AI（AI 日报）
 
 - **覆盖**：前沿模型发布与评测、AI 公司重大动态（融资/诉讼/人事）、智能体与协议生态（MCP 等）、AI 安全与治理、开源模型、算力与芯片。
-- **信源**：TechCrunch AI、The Information、The Verge、VentureBeat；OpenAI / Anthropic / Google DeepMind / Meta AI 官方博客；机器之心、量子位。
+- **信源**：TechCrunch AI、The Information、The Verge、VentureBeat；OpenAI / Anthropic / Google DeepMind / Meta AI 官方博客；机器之心、量子位；国际视角：Rest of World、Nikkei Asia，以及 DeepSeek / 阿里通义 / 字节 / Mistral 等非美厂商的官方发布。
 - **排除**：与推荐系统相关的 AI 应用（归 `Personalization-Retention`）；AI 监管立法（归 `Trust-Safety-Regulation`，重大者可在本分类一句带过）。
 
 ### Dating-Social-Apps（交友与社交应用日报）
 
-- **覆盖**：交友应用产品与商业动态（Match Group、Bumble、Grindr、Hinge、Tinder、CMB 竞品及新锐创业公司）、社交平台重大产品变化、行业数据报告、融资与并购、用户行为趋势。
+- **覆盖**：交友应用产品与商业动态（Match Group、Bumble、Grindr、Hinge、Tinder、CMB 竞品及新锐创业公司）、社交平台重大产品变化、行业数据报告、融资与并购、用户行为趋势。非美市场同样重要：中国（探探、Soul、陌陌）、日本（Pairs、Tapple、with）、韩国、东南亚与印度（如 Aisle）、欧洲及拉美的本地头部产品与市场变化。
 - **信源**：Global Dating Insights、TechCrunch、Forbes、Business Insider；Match Group / Bumble 投资者关系与新闻稿；Sensor Tower / Appfigures 行业报告。
 - **排除**：纯监管新闻（归 `Trust-Safety-Regulation`）；纯商店政策（归 `Mobile-Platforms`）。
 
@@ -109,7 +110,7 @@
 
 ### Mobile-Platforms（移动平台与应用商店日报）
 
-- **覆盖**：App Store / Google Play 政策与审核指南变更、佣金与外链支付（Epic 案等判例执行）、IAP 与订阅规则、iOS / Android 系统级新特性（年龄 API、隐私、通知权限）、应用分发与商店外渠道、商店数据报告。
+- **覆盖**：App Store / Google Play 政策与审核指南变更、佣金与外链支付（Epic 案等判例执行）、IAP 与订阅规则、iOS / Android 系统级新特性（年龄 API、隐私、通知权限）、应用分发与商店外渠道、商店数据报告；各国对应用商店的监管与立法（欧盟 DMA、日本《智能手机竞争促进法》、韩国 IAP 法案、印度等新兴市场政策）。
 - **信源**：Apple Developer News、Android Developers Blog、Google Play 政策中心；9to5Mac、9to5Google、MacRumors、TechCrunch；Sensor Tower / data.ai 报告；相关诉讼与监管文书。
 - **排除**：与商店无关的 Apple/Google 产品新闻；隐私立法本身（归 `Trust-Safety-Regulation`，商店落地措施留在本分类）。
 
