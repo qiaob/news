@@ -2,9 +2,11 @@
 
 本文档是每日新闻简报的**爬取与写入规范**。执行生成任务的 AI 必须完整遵守本规范。仓库结构与站点约定见 `CLAUDE.md`。
 
+> 2026-11-05 分类优化：每日生成从 6 个分类精简为 3 个——`AI`（AI 与科技）、`Stocks`（股市）、`Dating-Social-Apps`（社交）。原 `Personalization-Retention`、`Mobile-Platforms`、`Trust-Safety-Regulation`、`Economy` 不再每日生成，历史归档保留在站内；其话题按相关性并入新分类（见第四节归并规则）。
+
 ## 一、任务总则
 
-- 每天为下列 6 个分类各生成 1 份简报（分类的爬取范围见第四节）。
+- 每天为下列 3 个分类各生成 1 份简报（分类的爬取范围见第四节）。
 - 日期取 **Asia/Shanghai 时区的当天日期**，记为 `YYYY-MM-DD`。
 - 新闻时间窗口：**过去 24–48 小时**。窗口内确实无料的分类按「内容不足」规则处理（见第三节）。
 - 输出语言：**中文**。公司名、产品名、人名、技术术语保留英文原文。
@@ -15,7 +17,7 @@
 ### 文件路径
 
 ```
-<分类文件夹>/YYYY-MM-DD.md      # 例：AI/2026-07-15.md
+<分类文件夹>/YYYY-MM-DD.md      # 例：AI/2026-11-05.md
 ```
 
 - 文件夹名必须与第四节的英文文件夹名完全一致（区分大小写、连字符）。
@@ -66,65 +68,48 @@
 
 ### 「为什么重要」的视角
 
-- `AI`、`Dating-Social-Apps`、`Personalization-Retention`、`Mobile-Platforms`、`Trust-Safety-Regulation`：站在**交友应用（Coffee Meets Bagel）从业者**的视角，说清这条新闻对产品、算法、变现、合规或竞争格局的含义。
-- `Economy`：中立的宏观视角，不联系 CMB。
+- `AI`、`Dating-Social-Apps`：站在**社交/交友产品从业者**的视角，说清这条新闻对产品、算法、变现、合规或竞争格局的含义。
+- `Stocks`：站在**中立投资者**的视角，说清数据/事件对指数、板块与具体公司的含义，写清「数值 + 预期对比 + 市场反应」；不提供买卖建议。
 
 ## 三、通用爬取要求
 
-- **信源优先级**：一手来源（官方公告、监管文件、公司博客、论文）> 头部媒体报道 > 行业垂直媒体 > 聚合转载。聚合转载只作补充链接，不作唯一来源。
-- **地域覆盖**：**全球视野，不要只抓美国**。欧盟/英国、中国（大陆及港台）、日本、韩国、东南亚、印度、拉美、中东与非洲的重要动态同样在范围内；每份简报应主动检索至少一轮非美市场的新闻，确有分量的优先入选（不为凑地域配额而降低选题标准）。非英语信源（当地媒体、监管机构、公司公告）可直接使用并翻译成中文摘要，链接保留原文。各分类的信源清单是起点而非边界。
+- **信源优先级**：一手来源（官方公告、监管文件、公司博客、财报）> 头部媒体报道 > 行业垂直媒体 > 聚合转载。聚合转载只作补充链接，不作唯一来源。
+- **地域覆盖**：**全球视野，不要只抓美国**。欧盟/英国、中国（大陆及港台）、日本、韩国、东南亚、印度、拉美、中东与非洲的重要动态同样在范围内；每份简报应主动检索至少一轮非美市场的新闻，确有分量的优先入选（不为凑地域配额而降低选题标准）。非英语信源可直接使用并翻译成中文摘要，链接保留原文。
 - **去重**：同一事件只归入最相关的一个分类；若对多个分类都关键，主分类写全，其他分类最多一句带过并复用链接，不重复整条。
 - **可信度**：单一来源且无法交叉验证的传闻，须在正文标注「据 X 独家/传闻」。
 - **链接校验**：写入前确认 URL 可访问；优先非付费墙链接，付费墙独家可保留但尽量补一条免费的相关报道。
-- **内容不足**：窗口期内不足 3 条时，宁可只写 2 条甚至 1 条，也不要用边缘内容凑数；完全无料的分类可跳过当天（不生成文件，站点会自动跳过该日期）。`Personalization-Retention` 允许用「深度解读一篇论文/工程博客」顶替新闻条目。
+- **内容不足**：窗口期内不足 3 条时，宁可只写 2 条甚至 1 条，也不要用边缘内容凑数；完全无料的分类可跳过当天（不生成文件，站点会自动跳过该日期）。
 
 ## 四、分类爬取配置
 
 | 文件夹 | 分类中文名（H1 用） |
 |---|---|
-| `AI` | AI 日报 |
-| `Dating-Social-Apps` | 交友与社交应用日报 |
-| `Personalization-Retention` | 推荐与留存日报 |
-| `Mobile-Platforms` | 移动平台与应用商店日报 |
-| `Trust-Safety-Regulation` | 信任安全与监管日报 |
-| `Economy` | 经济日报 |
+| `AI` | AI 与科技日报 |
+| `Stocks` | 股市日报 |
+| `Dating-Social-Apps` | 社交日报 |
 
-### AI（AI 日报）
+### AI（AI 与科技日报）
 
-- **覆盖**：前沿模型发布与评测、AI 公司重大动态（融资/诉讼/人事）、智能体与协议生态（MCP 等）、AI 安全与治理、开源模型、算力与芯片。
-- **信源**：TechCrunch AI、The Information、The Verge、VentureBeat；OpenAI / Anthropic / Google DeepMind / Meta AI 官方博客；机器之心、量子位；国际视角：Rest of World、Nikkei Asia，以及 DeepSeek / 阿里通义 / 字节 / Mistral 等非美厂商的官方发布。
-- **排除**：与推荐系统相关的 AI 应用（归 `Personalization-Retention`）；AI 监管立法（归 `Trust-Safety-Regulation`，重大者可在本分类一句带过）。
+- **覆盖**：前沿模型发布与评测、AI 公司重大动态（融资/诉讼/人事）、智能体与协议生态（MCP 等）、AI 安全与治理、开源模型、算力与芯片；**以及广义科技行业**：头部科技公司重大产品与战略、消费电子、云计算、开发者生态。原 `Personalization-Retention` 的重大推荐/留存研究、原 `Mobile-Platforms` 的重大商店政策变化，只在影响面足够大时以一条并入本分类或社交分类，不再单独成报。
+- **信源**：TechCrunch、The Verge、VentureBeat、The Information；OpenAI / Anthropic / Google DeepMind / Meta AI 官方博客；机器之心、量子位；国际视角：Rest of World、Nikkei Asia，以及 DeepSeek / 阿里通义 / 字节 / Mistral 等非美厂商的官方发布。
+- **排除**：AI 监管立法细节（重大者一句带过）；上市公司财报与股价（归 `Stocks`，技术动态本身留在本分类）。
 
-### Dating-Social-Apps（交友与社交应用日报）
+### Stocks（股市日报）
 
-- **覆盖**：交友应用产品与商业动态（Match Group、Bumble、Grindr、Hinge、Tinder、CMB 竞品及新锐创业公司）、社交平台重大产品变化、行业数据报告、融资与并购、用户行为趋势。非美市场同样重要：中国（探探、Soul、陌陌）、日本（Pairs、Tapple、with）、韩国、东南亚与印度（如 Aisle）、欧洲及拉美的本地头部产品与市场变化。
-- **信源**：Global Dating Insights、TechCrunch、Forbes、Business Insider；Match Group / Bumble 投资者关系与新闻稿；Sensor Tower / Appfigures 行业报告。
-- **排除**：纯监管新闻（归 `Trust-Safety-Regulation`）；纯商店政策（归 `Mobile-Platforms`）。
+- **覆盖**：全球主要市场收盘与盘面（美股、A 股、港股、新加坡 STI、日韩与欧洲）、大盘指数与板块异动、头部公司财报与股价大涨大跌、大宗商品与汇率的大幅波动、影响市场的宏观数据与央行动作（原 `Economy` 内容中与市场直接相关的部分并入本科）。
+- **重点市场**：美股（道指 / S&P 500 / 纳指）、新加坡（STI 与本地权重股）、中国与香港（沪深、恒生）为每日必看；其余市场有大事时入选。
+- **信源**：Reuters、Bloomberg、Financial Times、WSJ、CNBC、财新、海峡时报 Business、交易所与公司财报公告。
+- **视角**：中立投资者视角；数据类条目写清「数值 + 预期对比 + 市场反应」；**不写买卖建议、不预测点位**。
 
-### Personalization-Retention（推荐与留存日报）
+### Dating-Social-Apps（社交日报）
 
-- **定位注意**：这是「研究与实践动态」，不是传统新闻。信源以工程博客和论文为主，按「今天值得从业者读什么」选题。
-- **覆盖**：推荐系统架构（召回/排序/重排、embedding、冷启动）、双边互惠推荐（reciprocal recommendation，dating 场景核心）、LLM × 推荐（生成式推荐、对话式发现）、feed 与 discovery 产品形态、push/通知策略与送达率、用户召回 campaign 案例、流失预测与留存实验方法论、A/B 测试实践。
-- **信源**：Netflix TechBlog、Pinterest Engineering、Spotify Engineering、Airbnb Engineering、LinkedIn Engineering、Duolingo Blog、Meta AI Blog；arXiv cs.IR 新论文、RecSys / KDD / WSDM 会议动态；Eugene Yan 博客；Braze / OneSignal / Amplitude 的 push 与留存报告；Lenny's Newsletter 的增长案例。
-- **排除**：泛 AI 模型新闻（归 `AI`）。
+- **覆盖**：社交平台与交友应用的产品与商业动态——交友（Match Group、Bumble、Grindr、Hinge、Tinder 及各地区头部与新锐）与泛社交平台（Meta、TikTok、X、小红书、微信、Soul、探探等）的重大产品变化、财报与融资并购、行业数据报告、用户行为趋势；与社交直接相关的平台监管大事（年龄验证、订阅规则、romance scam 治理）可入选，细节不展开。
+- **信源**：Global Dating Insights、TechCrunch、Forbes、Business Insider；Match Group / Bumble / Meta 等投资者关系与新闻稿；Sensor Tower / Appfigures 行业报告。
+- **排除**：与社交无关的纯科技新闻（归 `AI`）；上市公司股价本身（归 `Stocks`，业务动态留在本分类）。
 
-### Mobile-Platforms（移动平台与应用商店日报）
+### 已停更分类（仅保留归档，不再生成）
 
-- **覆盖**：App Store / Google Play 政策与审核指南变更、佣金与外链支付（Epic 案等判例执行）、IAP 与订阅规则、iOS / Android 系统级新特性（年龄 API、隐私、通知权限）、应用分发与商店外渠道、商店数据报告；各国对应用商店的监管与立法（欧盟 DMA、日本《智能手机竞争促进法》、韩国 IAP 法案、印度等新兴市场政策）。
-- **信源**：Apple Developer News、Android Developers Blog、Google Play 政策中心；9to5Mac、9to5Google、MacRumors、TechCrunch；Sensor Tower / data.ai 报告；相关诉讼与监管文书。
-- **排除**：与商店无关的 Apple/Google 产品新闻；隐私立法本身（归 `Trust-Safety-Regulation`，商店落地措施留在本分类）。
-
-### Trust-Safety-Regulation（信任安全与监管日报）
-
-- **覆盖**：年龄验证立法与执行（各国）、DSA / Online Safety Act / COPPA 等平台监管、数据隐私执法（GDPR、FTC、网信办）、AI 生成内容标识义务、内容审核与用户安全实践、诈骗与 romance scam 治理、重大安全事件。
-- **信源**：欧盟委员会 / Ofcom / FTC / 各国监管机构官网、IAPP、TechPolicy.Press、法院判决文书；Trust & Safety 行业社区（TSPA 等）；主流媒体的监管报道。
-- **排除**：与平台监管无关的一般网络安全漏洞新闻（重大者归 `AI` 或略过）。
-
-### Economy（经济日报）
-
-- **覆盖**：宏观数据（CPI、就业、GDP）、央行政策（美联储、欧央行、日央行、中国人民银行）、全球市场大事（股债汇、大宗商品）、重大财政与贸易政策、有系统性影响的公司事件（财报季头部公司、大型并购）。
-- **信源**：Reuters、Bloomberg、Financial Times、WSJ、财新；央行与统计局官方发布；IMF / World Bank 报告。
-- **视角**：中立宏观，不联系 CMB；数据类条目写清「数值 + 预期对比 + 市场反应」。
+`Personalization-Retention`、`Mobile-Platforms`、`Trust-Safety-Regulation`、`Economy`：文件夹与历史文件保留，站点照常展示归档；不要再为其生成新文件，也不要删除或移动其任何文件。
 
 ## 五、写入后的自检清单
 

@@ -5,39 +5,47 @@
 #      顶部导航也会优先指向它（没有 index.md 时导航退化为指向该分类最新一期）；
 #   3. （可选）在这里加一条配置，自定义显示名称、emoji、主题色和一句话描述，
 #      不配置时默认显示文件夹名 + 📰 + 灰色。
+# 2026-11-05 起每日生成仅 3 个分类：AI、Stocks、Dating-Social-Apps；
+# 其余分类为历史归档，保留配置以便归档页正常显示，不再产生新文件。
 AI:
   short: AI
-  name: AI 日报
+  name: AI 与科技日报
   emoji: 🤖
   color: "#6366f1"
-  desc: 人工智能行业每日要闻
+  desc: 人工智能与科技行业每日要闻
+Stocks:
+  short: 股市
+  name: 股市日报
+  emoji: 📈
+  color: "#dc2626"
+  desc: 全球股市、指数与头部公司股价动态
 Dating-Social-Apps:
-  short: 交友社交
-  name: 交友与社交应用日报
+  short: 社交
+  name: 社交日报
   emoji: 💬
   color: "#e11d63"
-  desc: 交友与社交产品行业每日要闻
+  desc: 社交平台与交友应用每日要闻
 Personalization-Retention:
   short: 推荐与留存
   name: 推荐与留存日报
   emoji: 🎯
   color: "#0d9488"
-  desc: 推荐系统、个性化匹配与召回留存的研究与实践
+  desc: （已停更，历史归档）推荐系统、个性化匹配与召回留存的研究与实践
 Mobile-Platforms:
   short: 移动平台
   name: 移动平台与应用商店日报
   emoji: 📱
   color: "#0ea5e9"
-  desc: App Store 与 Google Play 政策、分发与变现动态
+  desc: （已停更，历史归档）App Store 与 Google Play 政策、分发与变现动态
 Trust-Safety-Regulation:
   short: 信任安全
   name: 信任安全与监管日报
   emoji: 🛡️
   color: "#d97706"
-  desc: 年龄验证、内容安全与数据隐私监管动态
+  desc: （已停更，历史归档）年龄验证、内容安全与数据隐私监管动态
 Economy:
   short: 经济
   name: 经济日报
   emoji: 💹
   color: "#16a34a"
-  desc: 宏观经济与全球市场每日要闻
+  desc: （已停更，历史归档）宏观经济与全球市场每日要闻，市场内容已并入股市日报
